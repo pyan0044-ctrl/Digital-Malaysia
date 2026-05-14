@@ -1,2 +1,2 @@
-# digital-malaysia
+# Digital-Malaysia
 FIT2179 Data Visualisation 2
