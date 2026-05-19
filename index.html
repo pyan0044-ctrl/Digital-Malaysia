@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Malaysia's Digital Rise</title>
+
+  <!-- Google Fonts: DM Serif Display + DM Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <!-- Pure.css grid -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css" />
+
+  <!-- Vega-Lite v5 -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+  <style>
+    /* ── Reset & base ─────────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --navy: #0A2342;
+      --blue: #1B5E9B;
+      --mid: #3A86C8;
+      --light: #A8CDEF;
+      --accent: #E8433A;
+      --gold: #F5A623;
+      --bg: #F7F5F0;
+      --white: #FFFFFF;
+      --text: #1A1A2E;
+      --muted: #5A6070;
+      --border: #D6D0C8;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'DM Serif Display', serif;
+      font-weight: 400;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: 3rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    h3 {
+      font-size: 1.35rem;
+      margin-bottom: 0.4rem;
+      color: var(--navy);
+    }
+
+    p {
+      margin-bottom: 1rem;
+      max-width: 68ch;
+      color: var(--text);
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ── Layout wrappers ───────────────────────────────────── */
+    .page-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── HERO ──────────────────────────────────────────────── */
+    .hero {
+      background: var(--navy);
+      color: var(--white);
+      padding: 3rem 2rem 2.5rem;
+    }
+
+    .hero .page-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .hero-tag {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .hero h1 {
+      color: var(--white);
+      max-width: none;
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      font-weight: 300;
+      color: var(--light);
+      max-width: 55ch;
+      margin-bottom: 0;
+    }
+
+    .hero-meta {
+      font-size: 0.82rem;
+      color: #7A9BBE;
+      margin-top: 1rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.4rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .hero-stat-label {
+      font-size: 0.8rem;
+      color: var(--light);
+      margin-top: 0.2rem;
+    }
+
+    /* ── Section wrapper ───────────────────────────────────── */
+    .section {
+      padding: 4rem 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section:last-of-type {
+      border-bottom: none;
+    }
+
+    .section-alt {
+      background: var(--white);
+    }
+
+    /* ── Section header strip ──────────────────────────────── */
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-num {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .section-divider {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 0.25rem;
+    }
+
+    /* ── Chart card ────────────────────────────────────────── */
+    .chart-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.5rem 1.5rem 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-alt .chart-card {
+      background: var(--bg);
+    }
+
+    .chart-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--navy);
+      margin-bottom: 0.35rem;
+    }
+
+    .chart-subtitle {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .chart-container {
+      width: 100%;
+    }
+
+    /* source tag beneath chart */
+    .chart-source {
+      font-size: 0.73rem;
+      color: var(--muted);
+      margin-top: 0.75rem;
+      font-style: italic;
+    }
+
+    /* ── Annotation style used inside chart captions ───────── */
+    .annotation-box {
+      background: #EEF5FC;
+      border-left: 3px solid var(--blue);
+      border-radius: 0 4px 4px 0;
+      padding: 0.6rem 0.9rem;
+      font-size: 0.82rem;
+      color: var(--navy);
+      margin-top: 0.8rem;
+    }
+
+    /* ── Two-column layout helper ──────────────────────────── */
+    .two-col {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .two-col>.chart-card {
+      flex: 1 1 340px;
+    }
+
+    /* ── Key finding callout ───────────────────────────────── */
+    .finding {
+      background: var(--navy);
+      color: var(--white);
+      border-radius: 6px;
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .finding-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .finding p {
+      color: var(--light);
+      font-size: 0.93rem;
+      max-width: none;
+    }
+
+    /* ── Footer ────────────────────────────────────────────── */
+    .footer {
+      background: var(--navy);
+      color: #7A9BBE;
+      font-size: 0.8rem;
+      padding: 2rem;
+      line-height: 1.9;
+    }
+
+    .footer a {
+      color: var(--light);
+    }
+
+    .footer-grid {
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-col h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+
+    /* ── Responsive tweaks ─────────────────────────────────── */
+    @media (max-width: 680px) {
+      h1 {
+        font-size: 2.1rem;
+      }
+
+      .hero-stats {
+        gap: 1.5rem;
+      }
+
+      .two-col {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+     HERO / TITLE
+════════════════════════════════════════════════ -->
+  <header class="hero">
+    <div class="page-wrap">
+      <span class="hero-tag">FIT2179 Data Visualisation 2 &nbsp;·&nbsp; 2026</span>
+      <h1>Malaysia's Digital Rise</h1>
+      <p class="hero-sub">
+        From dial-up to near-universal connectivity — how Malaysia became one of the most connected nations in Southeast
+        Asia, and how the way we use the internet keeps evolving.
+      </p>
+
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">98%</div>
+          <div class="hero-stat-label">Internet penetration, 2026</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">35.4M</div>
+          <div class="hero-stat-label">Internet users</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">44M+</div>
+          <div class="hero-stat-label">Mobile connections</div>
+        </div>
+      </div>
+
+      <p class="hero-meta">
+        By Yang Pei Leng &nbsp;·&nbsp; Monash University Malaysia &nbsp;·&nbsp; May 2026
+      </p>
+    </div>
+  </header>
+
+
+  <!-- ═══════════════════════════════════════════════
+     SECTION 1 — How Connected Is Malaysia?
+════════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="page-wrap">
+
+      <div class="section-header">
+        <span class="section-num">Section 01</span>
+        <div class="section-divider"></div>
+      </div>
+      <h2>How Connected Is Malaysia?</h2>
+      <p>
+        In 2000, barely one in five Malaysians used the internet. Today, almost the entire population is online. This
+        section traces that remarkable journey and places Malaysia in its regional context.
+      </p>
+
+      <!-- Chart 1 — Malaysia Internet Journey (full width) -->
+      <div class="chart-card">
+        <div class="chart-title">Malaysia's Internet Journey, 2000–2023</div>
+        <div class="chart-subtitle">Share of population using the internet (%)</div>
+        <div id="chart1" class="chart-container"></div>
+        <p style="font-size:0.82rem; color:#5A6070; font-style:italic; margin-top:0.6rem;">
+          The steepest jump came in 2020 — when movement restrictions pushed more Malaysians online almost overnight.
+        </p>
+        <div class="chart-source">Source: World Bank — Individuals using the Internet (% of population)</div>
+      </div>
+
+      <!-- Charts 2 & 3 — side by side -->
+      <div class="two-col">
+
+        <div class="chart-card">
+          <div class="chart-title">Malaysia vs Southeast Asia, 2022</div>
+          <div class="chart-subtitle">Internet users as % of population</div>
+          <div id="chart2" class="chart-container"></div>
+          <div class="chart-source">Source: DOSM ICT Survey 2024; World Bank</div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-title">The Race to Get Online, 2010–2022</div>
+          <div class="chart-subtitle">Selected SEA countries — internet penetration over time</div>
+          <div id="chart3" class="chart-container"></div>
+          <p style="font-size:0.82rem; color:#5A6070; font-style:italic; margin-top:0.6rem;">
+            Malaysia's line is highlighted and leads the region from 2019 onwards.
+          </p>
+          <div class="chart-source">Source: World Bank</div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+     SECTION 2 — The Social Media Boom
+════════════════════════════════════════════════ -->
+  <section class="section section-alt">
+    <div class="page-wrap">
+
+      <div class="section-header">
+        <span class="section-num">Section 02</span>
+        <div class="section-divider"></div>
+      </div>
+      <h2>The Social Media Boom</h2>
+      <p>
+        As internet access spread, Malaysians rushed to social media. By 2022, the country had one of the highest social
+        media penetration rates in the world. But the numbers tell a more nuanced story about how this adoption has
+        fluctuated.
+      </p>
+
+      <!-- Charts 4 & 5 — side by side -->
+      <div class="two-col">
+
+        <div class="chart-card">
+          <div class="chart-title">Internet vs Social Media Users, 2020–2026</div>
+          <div class="chart-subtitle">Millions of users — the gap between internet access and social media adoption
+          </div>
+          <div id="chart4" class="chart-container"></div>
+          <p style="font-size:0.82rem; color:#5A6070; font-style:italic; margin-top:0.6rem;">
+            The gap between internet users and social media users has narrowed over time — most Malaysians who go online now use at least one social platform.
+          </p>
+          <div class="chart-source">Source: DataReportal — Digital Malaysia Reports 2020–2026</div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-title">Social Media Penetration, 2020–2026</div>
+          <div class="chart-subtitle">Percentage of population on social media</div>
+          <div id="chart5" class="chart-container"></div>
+          <p style="font-size:0.82rem; color:#5A6070; font-style:italic; margin-top:0.6rem;">
+            Note: DataReportal revised its social media methodology in 2023, so figures before and after that year are not directly comparable.
+          </p>
+          <div class="chart-source">Source: DataReportal</div>
+        </div>
+
+      </div>
+
+      <!-- Chart 6 — Who's still offline (full width) -->
+      <div class="chart-card">
+        <div class="chart-title">Who's Still Offline? Population Online vs Offline, 2020–2026</div>
+        <div class="chart-subtitle">Share of population online vs offline — the grey offline slice shrinks each year</div>
+        <div id="chart6" class="chart-container"></div>
+        <div class="chart-source">Source: DataReportal; World Bank (population figures)</div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+     SECTION 3 — Getting Faster and More Mobile
+════════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="page-wrap">
+
+      <div class="section-header">
+        <span class="section-num">Section 03</span>
+        <div class="section-divider"></div>
+      </div>
+      <h2>Getting Faster and More Mobile</h2>
+      <p>
+        Connectivity alone does not tell the whole story. The speed of Malaysia's internet has improved dramatically,
+        and the country now has more mobile SIM connections than people.
+      </p>
+
+      <!-- Charts 7 & 8 — side by side -->
+      <div class="two-col">
+
+        <div class="chart-card">
+          <div class="chart-title">Mobile vs Fixed Internet Speeds, 2022–2025</div>
+          <div class="chart-subtitle">Median download speed in Mbps</div>
+          <div id="chart7" class="chart-container"></div>
+          <p style="font-size:0.82rem; color:#5A6070; font-style:italic; margin-top:0.6rem;">
+            Mobile speeds have grown nearly five times faster than fixed broadband since 2022 — a sign of Malaysia's rapid 5G rollout.
+          </p>
+          <div class="chart-source">Source: Ookla via DataReportal</div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-title">More SIMs Than People, 2020–2026</div>
+          <div class="chart-subtitle">Mobile connections as % of total population</div>
+          <div id="chart8" class="chart-container"></div>
+          <p style="font-size:0.82rem; color:#5A6070; font-style:italic; margin-top:0.6rem;">
+            More SIMs than people — Malaysians often carry multiple SIM cards, pushing mobile connections well above the population count.
+          </p>
+          <div class="chart-source">Source: DataReportal</div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+     SECTION 4 — Who's Online and Where?
+════════════════════════════════════════════════ -->
+  <section class="section section-alt">
+    <div class="page-wrap">
+
+      <div class="section-header">
+        <span class="section-num">Section 04</span>
+        <div class="section-divider"></div>
+      </div>
+      <h2>Who's Online and Where?</h2>
+      <p>
+        Internet access is not equal across Malaysia. Urban areas are nearly universally connected, while some rural
+        states still have meaningful gaps. This section also looks at which platforms Malaysians prefer and how usage
+        differs by gender.
+      </p>
+
+      <!-- Map — full width -->
+      <div class="chart-card">
+        <div class="chart-title">Internet Access by Malaysian State, 2024</div>
+        <div class="chart-subtitle">Household internet access as a percentage — darker shading indicates higher
+          connectivity</div>
+        <div id="map" class="chart-container"></div>
+        <div class="chart-source">Source: DOSM ICT Use and Access by Individuals and Households Survey Report, 2024
+        </div>
+      </div>
+
+      <!-- Charts 9 & 10 — side by side -->
+      <div class="two-col">
+
+        <div class="chart-card">
+          <div class="chart-title">Platform Users in Malaysia, 2026</div>
+          <div class="chart-subtitle">Estimated number of users per platform (millions)</div>
+          <div id="chart9" class="chart-container"></div>
+          <div class="chart-source">Source: DataReportal 2026</div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-title">Gender Split by Platform, 2026</div>
+          <div class="chart-subtitle">Percentage of male vs female users per platform</div>
+          <div id="chart10" class="chart-container"></div>
+          <p style="font-size:0.82rem; color:#5A6070; font-style:italic; margin-top:0.6rem;">
+            TikTok and Instagram skew noticeably female, while LinkedIn and YouTube lean male — reflecting how different platforms attract different audiences.
+          </p>
+          <div class="chart-source">Source: DataReportal 2026</div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="page-wrap">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>Data Sources</h4>
+          <p>
+            World Bank — Individuals using the Internet (% of population)<br>
+            <a href="https://data.worldbank.org" target="_blank">data.worldbank.org</a>
+          </p>
+          <p>
+            DataReportal — Digital Malaysia Reports (2020–2026)<br>
+            <a href="https://datareportal.com" target="_blank">datareportal.com</a>
+          </p>
+          <p>
+            Department of Statistics Malaysia (DOSM) — ICT Use and Access Survey 2024<br>
+            <a href="https://www.dosm.gov.my" target="_blank">dosm.gov.my</a>
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>Authorship</h4>
+          <p>
+            Visualisation by Yang Pei Leng<br>
+            FIT2179 Data Visualisation 2<br>
+            Monash University Malaysia, 2026
+          </p>
+          <p>
+            Built with Vega-Lite v5 and Pure.css.<br>
+            Generative AI tools (Claude by Anthropic) were used to assist with grammar checking and text refinement in
+            this visualisation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ═══════════════════════════════════════════════
+     VEGA-LITE CHART SPECIFICATIONS
+     Replace each spec below with your actual JSON
+════════════════════════════════════════════════ -->
+  <script>
+    // ── Helper: embed a Vega-Lite spec into a div ──────────────────
+    function embed(id, spec) {
+      vegaEmbed('#' + id, spec, { actions: false, renderer: 'svg' })
+        .catch(console.error);
+    }
+
+    // ── Shared colour palette ──────────────────────────────────────
+    const NAVY = '#0A2342';
+    const BLUE = '#1B5E9B';
+    const MID = '#3A86C8';
+    const LIGHT = '#A8CDEF';
+    const ACCENT = '#E8433A';
+    const GOLD = '#F5A623';
+    const MUTED = '#D6D0C8';
+
+    // ── Shared config applied to every chart ──────────────────────
+    const sharedConfig = {
+      font: 'DM Sans',
+      title: { font: 'DM Serif Display', fontSize: 13, color: NAVY },
+      axis: {
+        labelFont: 'DM Sans', labelFontSize: 11, labelColor: '#5A6070',
+        titleFont: 'DM Sans', titleFontSize: 11, titleColor: '#5A6070',
+        gridColor: '#EBEBEB', domainColor: MUTED, tickColor: MUTED
+      },
+      legend: {
+        labelFont: 'DM Sans', labelFontSize: 11,
+        titleFont: 'DM Sans', titleFontSize: 11
+      },
+      view: { stroke: null }
+    };
+
+
+    // ══════════════════════════════════════════════════════════════
+    //  CHART 1 — Malaysia Internet Journey (annotated line)
+    //  Source: World Bank CSV
+    // ══════════════════════════════════════════════════════════════
+    embed('chart1', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 260,
+      config: sharedConfig,
+      data: { url: 'data/world_bank_malaysia.csv' },
+      transform: [
+        { filter: "datum.year >= 2000 && datum.year <= 2023" }
+      ],
+      layer: [
+        {
+          mark: { type: 'area', line: { color: BLUE, strokeWidth: 2 }, color: LIGHT, opacity: 0.35 },
+          encoding: {
+            x: { field: 'year', type: 'ordinal', axis: { title: 'Year' } },
+            y: { field: 'internet_pct', type: 'quantitative', axis: { title: 'Internet Users (%)' }, scale: { domain: [0, 100] } }
+          }
+        },
+        {
+          mark: { type: 'text', align: 'center', dx: 0, dy: -16, fontSize: 10, fontStyle: 'bold', color: ACCENT },
+          transform: [{ filter: "datum.year == 2020" }],
+          encoding: {
+            x: { field: 'year', type: 'ordinal' },
+            y: { field: 'internet_pct', type: 'quantitative' },
+            text: { value: 'MCO 2020' }
+          }
+        },
+        {
+          mark: { type: 'point', color: ACCENT, size: 80, filled: true },
+          transform: [{ filter: "datum.year == 2020" }],
+          encoding: {
+            x: { field: 'year', type: 'ordinal' },
+            y: { field: 'internet_pct', type: 'quantitative' }
+          }
+        }
+      ]
+    });
+
+
+    // ══════════════════════════════════════════════════════════════
+    //  CHART 2 — Malaysia vs SEA horizontal bar (2022)
+    //  Source: DOSM international comparison CSV
+    // ══════════════════════════════════════════════════════════════
+    embed('chart2', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 340,
+      config: sharedConfig,
+      data: { url: 'data/dosm_international_comparison.csv' },
+      transform: [
+        { filter: "datum.year == 2022" },
+        { sort: [{ field: 'internet_users_pct', order: 'descending' }] }
+      ],
+      mark: { type: 'bar', cornerRadiusEnd: 3 },
+      encoding: {
+        y: { field: 'country', type: 'nominal', sort: '-x', axis: { title: null } },
+        x: { field: 'internet_users_pct', type: 'quantitative', axis: { title: 'Internet Users (%)', format: '.0f' }, scale: { domain: [0, 100] } },
+        color: {
+          condition: { test: "datum.country == 'Malaysia'", value: BLUE },
+          value: LIGHT
+        },
+        tooltip: [
+          { field: 'country', title: 'Country' },
+          { field: 'internet_users_pct', title: 'Internet Users (%)', format: '.1f' }
+        ]
+      }
+    });
+
+
+    // ══════════════════════════════════════════════════════════════
+    //  CHART 3 — SEA multi-line (2019–2022)
+    //  Source: DOSM international comparison CSV
+    // ══════════════════════════════════════════════════════════════
+    embed('chart3', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 280,
+      config: sharedConfig,
+      data: { url: 'data/dosm_international_comparison.csv' },
+      mark: { type: 'line', strokeWidth: 2, point: true },
+      encoding: {
+        x: { field: 'year', type: 'ordinal', axis: { title: 'Year' } },
+        y: { field: 'internet_users_pct', type: 'quantitative', axis: { title: 'Internet Users (%)', format: '.0f' }, scale: { domain: [40, 100] } },
+        color: {
+          field: 'country', type: 'nominal',
+          scale: { scheme: 'tableau10' },
+          legend: { title: 'Country', orient: 'right' }
+        },
+        strokeWidth: {
+          condition: { test: "datum.country == 'Malaysia'", value: 3 },
+          value: 1.2
+        },
+        opacity: {
+          condition: { test: "datum.country == 'Malaysia'", value: 1 },
+          value: 0.5
+        },
+        tooltip: [
+          { field: 'country', title: 'Country' },
+          { field: 'year', title: 'Year' },
+          { field: 'internet_users_pct', title: 'Internet Users (%)', format: '.1f' }
+        ]
+      }
+    });
+
+
+    // ══════════════════════════════════════════════════════════════
+    //  CHART 4 — Internet vs Social Media Users (dual line)
+    //  Source: datareportal_malaysia.csv
+    // ══════════════════════════════════════════════════════════════
+    embed('chart4', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 220,
+      config: sharedConfig,
+      data: { url: 'data/datareportal_malaysia.csv' },
+      transform: [
+        { fold: ['internet_users_mil', 'social_media_users_mil'], as: ['metric', 'value'] },
+        {
+          calculate: "datum.metric === 'internet_users_mil' ? 'Internet Users' : 'Social Media Users'",
+          as: 'metric_label'
+        }
+      ],
+      mark: { type: 'line', strokeWidth: 2.5, point: { size: 50 } },
+      encoding: {
+        x: { field: 'year', type: 'ordinal', axis: { title: 'Year' } },
+        y: { field: 'value', type: 'quantitative', axis: { title: 'Users (Millions)' } },
+        color: {
+          field: 'metric_label', type: 'nominal',
+          scale: { range: [BLUE, GOLD] },
+          legend: { title: null, orient: 'top-left' }
+        },
+        tooltip: [
+          { field: 'year', title: 'Year' },
+          { field: 'metric_label', title: 'Metric' },
+          { field: 'value', title: 'Users (M)', format: '.1f' }
+        ]
+      }
+    });
+
+
+    // ══════════════════════════════════════════════════════════════
+    //  CHART 5 — Social Media Penetration (annotated area)
+    //  Source: datareportal_malaysia.csv
+    // ══════════════════════════════════════════════════════════════
+    embed('chart5', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 245,
+      config: sharedConfig,
+      data: { url: 'data/datareportal_malaysia.csv' },
+      layer: [
+        {
+          mark: { type: 'area', line: { color: GOLD, strokeWidth: 2 }, color: GOLD, opacity: 0.2 },
+          encoding: {
+            x: { field: 'year', type: 'ordinal', axis: { title: 'Year' } },
+            y: { field: 'social_media_penetration_pct', type: 'quantitative', axis: { title: 'SM Penetration (%)' }, scale: { zero: false } }
+          }
+        },
+        {
+          mark: { type: 'text', align: 'left', dx: 4, dy: -10, fontSize: 10, fontStyle: 'italic', color: ACCENT },
+          transform: [{ filter: "datum.year == 2022" }],
+          encoding: {
+            x: { field: 'year', type: 'ordinal' },
+            y: { field: 'social_media_penetration_pct', type: 'quantitative' },
+            text: { value: '↑ Peak 91.7%' }
+          }
+        }
+      ]
+    });
+
+
+    // ══════════════════════════════════════════════════════════════
+    //  CHART 6 — Who's still offline (stacked area)
+    //  Source: datareportal_malaysia.csv
+    // ══════════════════════════════════════════════════════════════
+    // Malaysia population (approx, millions) per year for denominator
+    const maPop = { 2020: 32.4, 2021: 32.7, 2022: 33.0, 2023: 33.4, 2024: 33.6, 2025: 34.0, 2026: 34.4 };
+
+    embed('chart6', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 220,
+      config: sharedConfig,
+      data: { url: 'data/datareportal_malaysia.csv' },
+      transform: [
+        {
+          calculate: "{ '2020': 32.4, '2021': 32.7, '2022': 33.0, '2023': 33.4, '2024': 33.6, '2025': 34.0, '2026': 34.4 }['' + datum.year]",
+          as: 'population'
+        },
+        { calculate: "datum.population - datum.internet_users_mil", as: 'offline_mil' },
+        { fold: ['internet_users_mil', 'offline_mil'], as: ['status', 'users'] },
+        { calculate: "datum.status === 'internet_users_mil' ? 'Online' : 'Offline'", as: 'status_label' }
+      ],
+      mark: { type: 'bar', height: 22 },
+      encoding: {
+        y: { field: 'year', type: 'ordinal', axis: { title: null } },
+        x: {
+          field: 'users', type: 'quantitative',
+          stack: 'normalize',
+          axis: { title: 'Share of Population', format: '%' }
+        },
+        color: {
+          field: 'status_label', type: 'nominal',
+          scale: { domain: ['Online', 'Offline'], range: [BLUE, MUTED] },
+          legend: { title: null, orient: 'bottom' }
+        },
+        tooltip: [
+          { field: 'year', title: 'Year' },
+          { field: 'status_label', title: 'Status' },
+          { field: 'users', title: 'Users (M)', format: '.1f' }
+        ]
+      }
+    });
+
+
+    // ══════════════════════════════════════════════════════════════
+    //  CHART 7 — Mobile vs Fixed Speeds (dual line)
+    //  Source: datareportal_speeds.csv
+    // ══════════════════════════════════════════════════════════════
+    embed('chart7', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 220,
+      config: sharedConfig,
+      data: { url: 'data/datareportal_speeds.csv' },
+      transform: [
+        { fold: ['mobile_speed_mbps', 'fixed_speed_mbps'], as: ['type', 'speed'] },
+        { calculate: "datum.type === 'mobile_speed_mbps' ? 'Mobile' : 'Fixed Broadband'", as: 'type_label' }
+      ],
+      mark: { type: 'line', strokeWidth: 2.5, point: { size: 60 } },
+      encoding: {
+        x: { field: 'year', type: 'ordinal', axis: { title: 'Year' } },
+        y: { field: 'speed', type: 'quantitative', axis: { title: 'Download Speed (Mbps)' } },
+        color: {
+          field: 'type_label', type: 'nominal',
+          scale: { domain: ['Mobile', 'Fixed Broadband'], range: [GOLD, BLUE] },
+          legend: { title: null, orient: 'top-left' }
+        },
+        tooltip: [
+          { field: 'year', title: 'Year' },
+          { field: 'type_label', title: 'Connection Type' },
+          { field: 'speed', title: 'Speed (Mbps)', format: '.1f' }
+        ]
+      }
+    });
+
+
+    // ══════════════════════════════════════════════════════════════
+    //  CHART 8 — Mobile connections vs 100% population
+    //  Source: datareportal_malaysia.csv
+    // ══════════════════════════════════════════════════════════════
+    embed('chart8', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 220,
+      config: sharedConfig,
+      data: { url: 'data/datareportal_malaysia.csv' },
+      layer: [
+        {
+          mark: { type: 'line', color: MID, strokeWidth: 2.5, point: { size: 50, fill: MID } },
+          encoding: {
+            x: { field: 'year', type: 'ordinal', axis: { title: 'Year' } },
+            y: { field: 'mobile_pct_of_population', type: 'quantitative', axis: { title: 'Mobile Connections (% of population)' }, scale: { domain: [95, 135] } },
+            tooltip: [
+              { field: 'year', title: 'Year' },
+              { field: 'mobile_pct_of_population', title: 'Mobile Connections (%)', format: '.1f' }
+            ]
+          }
+        },
+        {
+          mark: { type: 'rule', color: ACCENT, strokeWidth: 1.5, strokeDash: [5, 3] },
+          encoding: { y: { datum: 100 } }
+        },
+        {
+          mark: { type: 'text', align: 'left', dx: 4, dy: -8, fontSize: 10, color: ACCENT },
+          encoding: {
+            x: { value: 0 },
+            y: { datum: 100 },
+            text: { value: '100% = 1 SIM per person' }
+          }
+        }
+      ]
+    });
+
+
+    // ══════════════════════════════════════════════════════════════
+    //  MAP — Internet Access by Malaysian State (choropleth)
+    //  Source: dosm_internet_by_state_2024.csv +
+    //          Malaysia TopoJSON from DOSM GitHub
+    // ══════════════════════════════════════════════════════════════
+    embed('map', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 380,
+      config: sharedConfig,
+      projection: { type: 'mercator' },
+      layer: [
+        {
+          data: {
+            url: 'data/malaysia-states.topojson',
+            format: { type: 'topojson', feature: 'states' }
+          },
+          transform: [
+            {
+              lookup: 'properties.Name',
+              from: {
+                data: { url: 'data/dosm_internet_by_state_2024.csv' },
+                key: 'state',
+                fields: ['internet_access_pct']
+              }
+            }
+          ],
+          mark: { type: 'geoshape', stroke: 'white', strokeWidth: 1 },
+          encoding: {
+            color: {
+              field: 'internet_access_pct',
+              type: 'quantitative',
+              title: 'Internet Access (%)',
+              scale: { scheme: 'blues', domain: [85, 100] },
+              legend: { format: '.0f' }
+            },
+            tooltip: [
+              { field: 'properties.Name', title: 'State' },
+              { field: 'internet_access_pct', title: 'Internet Access (%)', format: '.1f' }
+            ]
+          }
+        }
+      ]
+    });
+
+    // ══════════════════════════════════════════════════════════════
+    //  CHART 9 — Platform users lollipop
+    //  Source: inline data (from DataReportal 2026)
+    // ══════════════════════════════════════════════════════════════
+    const platformData = [
+      { platform: 'YouTube', users: 26.9 },
+      { platform: 'Facebook', users: 24.55 },
+      { platform: 'Instagram', users: 16.15 },
+      { platform: 'TikTok', users: 15.55 },
+      { platform: 'WhatsApp', users: 14.05 },
+      { platform: 'LinkedIn', users: 6.9 }
+    ];
+
+    embed('chart9', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 310,
+      config: sharedConfig,
+      data: { values: platformData },
+      layer: [
+        {
+          mark: { type: 'rule', color: MUTED, strokeWidth: 1.5 },
+          encoding: {
+            y: { field: 'platform', type: 'nominal', sort: '-x', axis: { title: null } },
+            x: { field: 'users', type: 'quantitative', axis: { title: 'Users (Millions)' }, scale: { domain: [0, 30] } },
+            x2: { datum: 0 }
+          }
+        },
+        {
+          mark: { type: 'point', filled: true, size: 120, color: BLUE },
+          encoding: {
+            y: { field: 'platform', type: 'nominal', sort: '-x' },
+            x: { field: 'users', type: 'quantitative' },
+            tooltip: [
+              { field: 'platform', title: 'Platform' },
+              { field: 'users', title: 'Users (M)', format: '.1f' }
+            ]
+          }
+        }
+      ]
+    });
+
+    // ══════════════════════════════════════════════════════════════
+    //  CHART 10 — Gender split diverging bar
+    //  Source: inline data (DataReportal 2026)
+    // ══════════════════════════════════════════════════════════════
+    const genderData = [
+      { platform: 'Facebook', male: 56, female: 44 },
+      { platform: 'Instagram', male: 43, female: 57 },
+      { platform: 'TikTok', male: 42, female: 58 },
+      { platform: 'YouTube', male: 54, female: 46 },
+      { platform: 'LinkedIn', male: 60, female: 40 },
+      { platform: 'WhatsApp', male: 51, female: 49 }
+    ];
+
+    const genderLong = genderData.flatMap(d => [
+      { platform: d.platform, gender: 'Male', value: -d.male },
+      { platform: d.platform, gender: 'Female', value: d.female }
+    ]);
+
+    embed('chart10', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 220,
+      config: sharedConfig,
+      data: { values: genderLong },
+      mark: { type: 'bar', cornerRadiusEnd: 3 },
+      encoding: {
+        y: { field: 'platform', type: 'nominal', axis: { title: null } },
+        x: {
+          field: 'value', type: 'quantitative',
+          axis: {
+            title: '← Male      Female →',
+            labelExpr: "abs(datum.value) + '%'"
+          },
+          scale: { domain: [-70, 70] }
+        },
+        color: {
+          field: 'gender', type: 'nominal',
+          scale: { domain: ['Male', 'Female'], range: [BLUE, GOLD] },
+          legend: { title: null, orient: 'bottom' }
+        },
+        tooltip: [
+          { field: 'platform', title: 'Platform' },
+          { field: 'gender', title: 'Gender' },
+          { field: 'value', title: 'Share (%)', format: '.0f' }
+        ]
+      }
+    });
+  </script>
+
+</body>
+
+</html>
