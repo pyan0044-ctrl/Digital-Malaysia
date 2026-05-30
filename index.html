@@ -488,8 +488,11 @@
         <div class="section-divider"></div>
       </div>
       <h2>Getting Faster and More Mobile</h2>
-      <p>Speed and mobile access tell a different side of Malaysia's digital story — more SIM cards than people, and
-        mobile speeds growing five times faster than fixed broadband.</p>
+      <p>
+        Speed and mobile access tell a different side of Malaysia's digital story. By 2024, Malaysia had over 44 million
+        mobile connections — more than its entire population. Mobile speeds have also grown nearly five times faster
+        than fixed broadband since 2022, driven by the country's rapid 5G rollout.
+      </p>
 
       <!-- Charts 7 & 8 — side by side -->
       <div class="two-col">
@@ -685,6 +688,15 @@
             x: { field: 'year', type: 'ordinal' },
             y: { field: 'internet_pct', type: 'quantitative' }
           }
+        },
+        {
+          mark: { type: 'text', align: 'right', dx: -4, dy: -12, fontSize: 11, fontWeight: 'bold', color: NAVY },
+          transform: [{ filter: "datum.year == 2023" }],
+          encoding: {
+            x: { field: 'year', type: 'ordinal' },
+            y: { field: 'internet_pct', type: 'quantitative' },
+            text: { value: '97.7%' }
+          }
         }
       ]
     });
@@ -773,21 +785,34 @@
           as: 'metric_label'
         }
       ],
-      mark: { type: 'line', strokeWidth: 2.5, point: { size: 50 } },
-      encoding: {
-        x: { field: 'year', type: 'ordinal', axis: { title: 'Year' } },
-        y: { field: 'value', type: 'quantitative', axis: { title: 'Users (Millions)' } },
-        color: {
-          field: 'metric_label', type: 'nominal',
-          scale: { range: [BLUE, GOLD] },
-          legend: { title: null, orient: 'top-left' }
+      layer: [
+        {
+          mark: { type: 'line', strokeWidth: 2.5, point: { size: 50 } },
+          encoding: {
+            x: { field: 'year', type: 'ordinal', axis: { title: 'Year' } },
+            y: { field: 'value', type: 'quantitative', axis: { title: 'Users (Millions)' } },
+            color: {
+              field: 'metric_label', type: 'nominal',
+              scale: { range: [BLUE, GOLD] },
+              legend: { title: null, orient: 'bottom' }
+            },
+            tooltip: [
+              { field: 'year', title: 'Year' },
+              { field: 'metric_label', title: 'Metric' },
+              { field: 'value', title: 'Users (M)', format: '.1f' }
+            ]
+          }
         },
-        tooltip: [
-          { field: 'year', title: 'Year' },
-          { field: 'metric_label', title: 'Metric' },
-          { field: 'value', title: 'Users (M)', format: '.1f' }
-        ]
-      }
+        {
+          mark: { type: 'text', align: 'left', dx: 4, dy: -10, fontSize: 11, fontWeight: 'bold', color: NAVY },
+          transform: [{ filter: "datum.year == '2026' && datum.metric === 'internet_users_mil'" }],
+          encoding: {
+            x: { field: 'year', type: 'ordinal' },
+            y: { field: 'value', type: 'quantitative' },
+            text: { value: '35.4M' }
+          }
+        }
+      ]
     });
 
 
@@ -797,7 +822,7 @@
     // ══════════════════════════════════════════════════════════════
     embed('chart5', {
       $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
-      width: 'container', height: 260,
+      width: 'container', height: 273,
       config: sharedConfig,
       data: { url: 'data/datareportal_malaysia.csv' },
       layer: [
@@ -892,7 +917,7 @@
         color: {
           field: 'type_label', type: 'nominal',
           scale: { domain: ['Mobile', 'Fixed Broadband'], range: [GOLD, BLUE] },
-          legend: { title: null, orient: 'top-left' }
+          legend: { title: null, orient: 'bottom' }
         },
         tooltip: [
           { field: 'year', title: 'Year' },
@@ -909,7 +934,7 @@
     // ══════════════════════════════════════════════════════════════
     embed('chart8', {
       $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
-      width: 'container', height: 220,
+      width: 'container', height: 225,
       config: sharedConfig,
       data: { url: 'data/datareportal_malaysia.csv' },
       layer: [
@@ -934,6 +959,15 @@
             x: { value: 0 },
             y: { datum: 100 },
             text: { value: '100% = 1 SIM per person' }
+          }
+        },
+        {
+          mark: { type: 'text', align: 'left', dx: 4, dy: -10, fontSize: 11, fontWeight: 'bold', color: NAVY },
+          transform: [{ filter: "datum.year == '2024'" }],
+          encoding: {
+            x: { field: 'year', type: 'ordinal' },
+            y: { field: 'mobile_pct_of_population', type: 'quantitative' },
+            text: { value: '129.2%' }
           }
         }
       ]
